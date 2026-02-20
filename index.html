@@ -22,9 +22,9 @@
         <p class="text-sm font-bold mb-2 tracking-widest">【重要】インバウンド集客最大化のご案内</p>
         <h1 class="text-3xl md:text-5xl font-extrabold mb-6 leading-tight">
             外国人観光客を貴店へ呼び込む。<br>
-            <span class="text-yellow-300">月額0円</span>
+            <span class="text-yellow-300">初期費用のみ・月額0円</span>
         </h1>
-        <p class="text-lg mb-8 opacity-90">tourcandy（ツアーキャンディー）がワンストップでインバウド集客実現</p>
+        <p class="text-lg mb-8 opacity-90">tourcandy（ツアーキャンディー）</p>
     </header>
 
     <section class="max-w-4xl mx-auto py-12 px-6">
@@ -42,7 +42,7 @@
             <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-tourcandy">
                 <div class="text-4xl mb-4">⚙️</div>
                 <h3 class="font-bold mb-2 text-lg text-tourcandy">完全運用代行</h3>
-                <p>導入実績700店舗以上。専門チームが管理。</p>
+                <p>実績700店舗以上。専門チームが管理。</p>
             </div>
         </div>
     </section>
@@ -50,12 +50,15 @@
     <section class="bg-white py-12 px-6 border-y border-gray-200 text-center">
         <div class="max-w-xl mx-auto space-y-4">
             <h2 class="text-2xl font-bold mb-8 italic text-tourcandy">＼ まずは以下よりお選びください ／</h2>
+            
             <button onclick="openModal('downloadModal')" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-5 rounded-full text-lg shadow-lg transition duration-300">
                 📄 資料をダウンロードする (無料)
             </button>
+            
             <button onclick="Calendly.initPopupWidget({url: 'https://calendly.com/liu-tourcandy/tourcandy'});return false;" class="block w-full bg-gray-800 hover:bg-black text-white font-bold py-5 rounded-full text-lg shadow-lg transition duration-300">
                 💻 オンライン説明会を予約する
             </button>
+
             <button onclick="openModal('visitModal')" class="block w-full border-2 border-tourcandy text-tourcandy font-bold py-5 rounded-full text-lg hover:bg-green-50 transition duration-300">
                 🚶 担当者の訪問・電話を依頼する
             </button>
@@ -66,25 +69,25 @@
         <div class="modal-overlay absolute inset-0" onclick="closeModal('downloadModal')"></div>
         <div class="bg-white rounded-2xl shadow-2xl z-10 w-full max-w-md p-8 relative">
             <h3 class="text-xl font-bold mb-6 text-center text-tourcandy">資料ダウンロード申し込み</h3>
-            <form action="https://formspree.io/f/mnjbbvdo" method="POST" id="downloadForm" class="space-y-4">
+            <form action="https://formspree.io/f/mnjbbvdo" method="POST" id="downloadForm" onsubmit="handleDownloadSubmit(event)" class="space-y-4">
                 <input type="hidden" name="_subject" value="【資料請求】tourcandy">
                 <div>
                     <label class="block text-sm font-bold text-gray-700">貴店名 / 会社名*</label>
-                    <input type="text" name="storeName" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                    <input type="text" name="storeName" required class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-green-500">
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700">店舗所在地 (住所)*</label>
-                    <input type="text" name="address" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                    <input type="text" name="address" required class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-green-500">
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700">担当者名*</label>
-                    <input type="text" name="userName" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                    <input type="text" name="userName" required class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-green-500">
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-700">電話番号 (ハイフンなし)*</label>
-                    <input type="tel" name="tel" required pattern="^0\d{9,10}$" title="日本の正規の電話番号を入力してください" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none" placeholder="09012345678">
+                    <input type="tel" name="tel" required pattern="^0\d{9,10}$" title="日本の電話番号を入力してください" class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-green-500" placeholder="09012345678">
                 </div>
-                <button type="button" onclick="startSecureDownload()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg shadow-md transition">
+                <button type="submit" id="dlBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg shadow-md transition">
                     規約に同意してダウンロード
                 </button>
             </form>
@@ -96,53 +99,70 @@
         <div class="bg-white rounded-2xl shadow-2xl z-10 w-full max-w-md p-8 relative overflow-y-auto max-h-[90vh]">
             <h3 class="text-xl font-bold mb-6 text-center text-tourcandy">個別説明の申し込み</h3>
             <form action="https://formspree.io/f/mnjbbvdo" method="POST" onsubmit="return handleVisitSubmit(event)" class="space-y-4">
-                <input type="hidden" name="_subject" value="【個別相談申请】tourcandy">
+                <input type="hidden" name="_subject" value="【個別相談申請】tourcandy">
                 <div><label class="block text-sm font-bold text-gray-700">貴店名*</label><input type="text" name="storeName" required class="w-full px-4 py-2 border rounded-lg outline-none"></div>
                 <div><label class="block text-sm font-bold text-gray-700">店舗所在地*</label><input type="text" name="address" required class="w-full px-4 py-2 border rounded-lg outline-none"></div>
                 <div><label class="block text-sm font-bold text-gray-700">担当者名*</label><input type="text" name="userName" required class="w-full px-4 py-2 border rounded-lg outline-none"></div>
                 <div><label class="block text-sm font-bold text-gray-700">電話番号*</label><input type="tel" name="tel" required pattern="^0\d{9,10}$" class="w-full px-4 py-2 border rounded-lg outline-none"></div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-700">希望方法*</label>
-                    <select name="method" class="w-full px-4 py-2 border rounded-lg bg-white"><option value="電話">電話での説明</option><option value="訪問">店舗への訪問</option></select>
+                    <label class="block text-sm font-bold text-gray-700">希望案内方法*</label>
+                    <select name="method" class="w-full px-4 py-2 border rounded-lg bg-white">
+                        <option value="電話">電話での説明希望</option>
+                        <option value="訪問">店舗への訪問希望</option>
+                    </select>
                 </div>
-                <div><label class="block text-sm font-bold text-gray-700">希望日時 (平日 10-17時)*</label><input type="datetime-local" name="preferredTime" id="v_time" required class="w-full px-4 py-2 border rounded-lg"></div>
-                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg shadow-md transition">申し込みを送信</button>
+                <div><label class="block text-sm font-bold text-gray-700 text-red-600 font-bold">希望日時 (平日 10-17時)*</label><input type="datetime-local" name="preferredTime" id="v_time" required class="w-full px-4 py-2 border rounded-lg outline-none"></div>
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg shadow-md transition">申し込みを送信する</button>
             </form>
         </div>
     </div>
 
-    <footer class="py-12 text-center text-gray-500 text-xs"><p>© 2026 tourcandy 事務局</p></footer>
+    <footer class="py-12 text-center text-gray-500 text-xs">
+        <p>© 2026 tourcandy 事務局</p>
+    </footer>
 
     <script>
         function openModal(id) { document.getElementById(id).classList.remove('modal-hidden'); }
         function closeModal(id) { document.getElementById(id).classList.add('modal-hidden'); }
 
-        // 核心修复逻辑：确保下载和提交同时成功
-        function startSecureDownload() {
-            const form = document.getElementById('downloadForm');
-            const telInput = document.getElementById('dl_tel');
-            
-            // 1. 手动触发表单验证
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
+        // 下载表单的 AJAX 提交处理
+        async function handleDownloadSubmit(e) {
+            e.preventDefault();
+            const form = e.target;
+            const btn = document.getElementById('dlBtn');
+            const formData = new FormData(form);
 
-            // 2. 准备下载地址 (Google Drive 方案)
-            // 请在此处替换为您真实的 Google Drive 文件 ID
-            const FILE_ID = "1umLBcjeKYDaJaMzGfS7-z5L6y3wesBBy"; 
-            const pdfUrl = `https://drive.google.com/uc?export=download&id=${FILE_ID}`;
-            
-            // 3. 执行：先弹出提示，然后下载，最后提交表单
-            alert("お申し込みありがとうございます。資料をダウンロードします。");
-            
-            // 在当前窗口打开下载（通常比新窗口更不容易被拦截）
-            window.location.href = pdfUrl; 
-            
-            // 延迟一秒后提交数据到 Formspree，确保下载已经触发
-            setTimeout(() => {
-                form.submit();
-            }, 1000);
+            btn.disabled = true;
+            btn.innerText = "送信中...";
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    alert("お申し込みありがとうございます。資料をダウンロードします。");
+                    // 这里直接指向同文件夹下的文件
+                    window.location.href = "./tourcandy_info.pdf"; 
+                    
+                    setTimeout(() => {
+                        closeModal('downloadModal');
+                        btn.disabled = false;
+                        btn.innerText = "規約に同意してダウンロード";
+                        form.reset();
+                    }, 2000);
+                } else {
+                    alert("送信に失敗しました。もう一度お試しください。");
+                    btn.disabled = false;
+                    btn.innerText = "規约に同意してダウンロード";
+                }
+            } catch (error) {
+                alert("エラーが発生しました。");
+                btn.disabled = false;
+                btn.innerText = "規约に同意してダウンロード";
+            }
         }
 
         function handleVisitSubmit(e) {
